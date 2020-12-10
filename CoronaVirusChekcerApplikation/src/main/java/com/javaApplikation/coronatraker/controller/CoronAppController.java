@@ -1,6 +1,7 @@
 package com.javaApplikation.coronatraker.controller;
 
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.Date;
 import java.util.List;
 
@@ -11,7 +12,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.servlet.ModelAndView;
 
+import com.javaApplikation.coronatraker.model.DataOfCountry;
 import com.javaApplikation.coronatraker.model.State;
 import com.javaApplikation.coronatraker.model.StateCases;
 import com.javaApplikation.coronatraker.model.StateDeaths;
@@ -84,5 +87,12 @@ public class CoronAppController {
 		model.addAttribute("totalGlobalRecoverd", totalGlobalRecoverd);
 		return "recoveredsHome";
 	}
-
+	@GetMapping("/get/{country}")
+	public ModelAndView showEditProductPage(@PathVariable( "country") String country) throws Exception, IOException, InterruptedException {
+		System.out.println(country);
+		ModelAndView mav=new ModelAndView("data_Country");
+		List<DataOfCountry> listOfDataCountry=service.getDatumAndTotalCasesCountry(country);
+	    mav.addObject("listOfDataCountry", listOfDataCountry);
+		return mav;
+	}
 }
